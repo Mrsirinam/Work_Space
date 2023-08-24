@@ -58,30 +58,24 @@ const createDetailVacancy = ({
 }) => `
 			<article class="detail">
 				<div class="detail__header">
-					<img src="./image/Creative_People.svg" alt="Логотип компании Creative People" class="detail__logo">
-					<p class="detail__company">Creative_People</p>
-					<h2 class="detail__title">Графический дизайнер</h2>
+					<img src="${API_URL}${logo}" alt="Логотип компании ${company}" class="detail__logo">
+					<p class="detail__company">${company}</p>
+					<h2 class="detail__title">${title}</h2>
 				</div>
 
 				<div class="detail__main">
-					<p class="detail__description">Привет. Мы в CreativePeople ищем middle графического дизайнера в свою дизайн
-						команду. Удаленно, из любой точки нашей страны, где у вас будет хороший интернет. Опыт работы в разработке
-						логотипов, фирменных стилей обязателен.
-						<br>
-						У нас в портфолио много крупных российских компаний, с некоторыми мы работаем уже много лет и делаем самые
-						разные проекты, от сайтов до мобильных приложений.
-					</p>
+					<p class="detail__description">${description.replaceAll("\n", "<br>")}</p>
 					<ul class="detail__fields">
-						<li class="detail__field">от 110 000₽</li>
-						<li class="detail__field">проектная работа</li>
-						<li class="detail__field">удаленный</li>
-						<li class="detail__field">опыт от 1 года до 3-х лет</li>
-						<li class="detail__field">Москва</li>
+						<li class="detail__field">от ${parseInt(salary).toLocaleString()}₽</li>
+						<li class="detail__field">${type}</li>
+						<li class="detail__field">${format}</li>
+						<li class="detail__field">${experience}</li>
+						<li class="detail__field">${location}</li>
 					</ul>
 				</div>
 
 				<p class="detail__resume">Отправляйте резюме на
-					<a class="blue-text" href="mailto:CreativePeople@gmail.com">CreativePeople@gmail.com</a>
+					<a class="blue-text" href="mailto:${email}">${email}</a>
 				</p>
 			</article>
 `;
