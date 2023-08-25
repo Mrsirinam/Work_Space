@@ -2,6 +2,10 @@ const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations";
 const VACANCY_URL = "api/vacancy";
 
+const cardsList = document.querySelector(".cards__list");
+let lastUrl = "";
+const pagination = {};
+
 const getData = async (url, cbSuccess, cbError) => {
   try {
     const response = await fetch(url);
@@ -36,11 +40,39 @@ const createCards = (data) =>
     return li;
   });
 
-const renderVacancy = (data, cardsList) => {
+const renderVacancies = (data) => {
   cardsList.textContent = "";
   const cards = createCards(data);
   cardsList.append(...cards);
+
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+  observer.observe(cardsList.lastElementChild);
 };
+
+const renderMoreVacancies = (data) => {
+  const cards = createCards(data);
+  cardsList.append(...cards);
+
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+  observer.observe(cardsList.lastElementChild);
+};
+
+const loadMoreVacancies = () => {
+  if (pagination.totalPages > pagination.currentPage) {
+    const urlWithParams = new URL(lastUrl);
+    urlWithParams.searchParams.set("page", pagination.currentPage + 1);
+    urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
+
+    getData(urlWithParams, renderMoreVacancies, renderError).then(() => {
+      lastUrl = urlWithParams;
+    });
+  }
+};
+
 const renderError = (err) => {};
 
 const createDetailVacancy = ({
@@ -100,13 +132,33 @@ const renderModal = (data) => {
   modalMain.append(modalClose);
   modal.append(modalMain);
   document.body.append(modal);
+
+  modal.addEventListener("click", ({ target }) => {
+    modal.remove();
+  });
 };
+
+//загружает вакансии для отображения, когда пользователь прокручивает страницу (бесконечная прокрутка.)
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadMoreVacancies();
+      }
+    });
+  },
+  {
+    rootMargin: "100px",
+  }
+);
 
 const openModal = (id) => {
   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
 };
 
 const init = () => {
+  const filterForm = document.querySelector(".filter__form");
   const cardsList = document.querySelector(".cards__list");
 
   //select city
@@ -114,6 +166,7 @@ const init = () => {
   const cityChoices = new Choices(citySelect, {
     itemSelectText: "",
   });
+
   //получаем данные с сервера (города)
   getData(
     `${API_URL}${LOCATION_URL}`,
@@ -130,14 +183,16 @@ const init = () => {
 
   //cards
 
-  const url = new URL(`${API_URL}${VACANCY_URL}`);
-  getData(
-    url,
-    (data) => {
-      renderVacancy(data, cardsList);
-    },
-    renderError
-  );
+  const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
+
+  urlWithParams.searchParams.set("limit", window.innerWidth < 768 ? 6 : 12);
+  urlWithParams.searchParams.set("page", 1);
+
+  getData(urlWithParams, renderVacancies, renderError).then(() => {
+    lastUrl = urlWithParams;
+  });
+
+  //modal
 
   cardsList.addEventListener("click", ({ target }) => {
     const vacancyCard = target.closest(".vacancy");
@@ -145,6 +200,23 @@ const init = () => {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
     }
+  });
+
+  //filter
+
+  filterForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(filterForm);
+
+    const urlWithParam = new URL(`${API_URL}${VACANCY_URL}`);
+
+    formData.forEach((value, key) => {
+      urlWithParam.searchParams.append(key, value);
+    });
+
+    getData(urlWithParam, renderVacancies, renderError).then(() => {
+      lastUrl = urlWithParam;
+    });
   });
 };
 
