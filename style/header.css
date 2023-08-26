@@ -1,6 +1,7 @@
 .header {
 	padding: 40px 0;
 }
+
 .header__container {
 	display: flex;
 	align-items: center;
@@ -9,8 +10,25 @@
 }
 
 .header__link {
-padding: 12px 32px;
-border-radius: 8px;
-background-color: #a6adff;
+	padding: 12px 32px;
+	border-radius: 8px;
+	background-color: #a6adff;
 
+}
+
+@media (max-width: 1140px) {
+	.header {
+		padding: 32 px 0 40px;
+	}
+}
+
+@media (max-width: 940px) {
+	.header {
+		padding: 24px 0 30px;
+	}
+
+	.header__link {
+		padding: 10px 16px;
+		font-size: 14px;
+	}
 }

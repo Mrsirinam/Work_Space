@@ -5,7 +5,7 @@
 .footer__container {
 	display: grid;
 	gap: 27px;
-	grid-template-areas: 
+	grid-template-areas:
 		"logo ."
 		"copyright contacts";
 
@@ -33,10 +33,17 @@
 	margin-bottom: 8px;
 
 }
+
 .footer__contact:last-child {
 	margin-bottom: 0;
 }
 
 .footer__link {
-color: brown;
+	color: brown;
+}
+
+@media (max-width: 1140px) {
+	.footer {
+		padding: 40px 0 32px;
+	}
 }
