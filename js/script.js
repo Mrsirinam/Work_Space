@@ -1,6 +1,7 @@
 const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations";
 const VACANCY_URL = "api/vacancy";
+const BOT_TOKEN = "6666488305:AAGBrjcULh1ajmZMnWNlXpIWRfgCcIZgokw";
 
 const cardsList = document.querySelector(".cards__list");
 let lastUrl = "";
@@ -106,11 +107,42 @@ const createDetailVacancy = ({
 					</ul>
 				</div>
 
-				<p class="detail__resume">Отправляйте резюме на
+				${isNaN(parseInt(id.slice(-1))) ? 
+					`	
+					<p class="detail__resume">Отправляйте резюме на
 					<a class="blue-text" href="mailto:${email}">${email}</a>
-				</p>
+					</p>
+				`: 
+				`<form class="detail__tg"> 
+						<input class="detail__input" type="text" name="message" placeholder="Напишите свой email"/>
+						<input name="vacancyId" type="hidden" value="${id}"/>
+						<button class="detail__btn">Отправить</button>
+						</form>`
+        }
+			
 			</article>
 `;
+
+const sendTelegram = (modal) => {
+	modal.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const form = e.target.closest('.detail__tg');
+
+		const userId = "333697244";
+		const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.messages}`
+		
+		const urlBot = 
+		`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`
+
+		fetch(urlBot)
+		.then(res => alert('Успешно отправлено'))
+		.catch(err => {
+			alert('Ошибка');
+		console.log(err);
+	});
+
+});
+};
 
 const renderModal = (data) => {
   const modal = document.createElement("div");
@@ -134,9 +166,12 @@ const renderModal = (data) => {
   document.body.append(modal);
 
   modal.addEventListener("click", ({ target }) => {
-    modal.remove();
+    if (target === modal || target.closest(".modal__close")) {
+      modal.remove();
+    }
   });
-};
+	
+	sendTelegram(modal);
 
 //загружает вакансии для отображения, когда пользователь прокручивает страницу (бесконечная прокрутка.)
 
@@ -165,6 +200,7 @@ const init = () => {
   const citySelect = document.querySelector("#city");
   const cityChoices = new Choices(citySelect, {
     itemSelectText: "",
+    searchEnabled: false,
   });
 
   //получаем данные с сервера (города)
@@ -220,16 +256,4 @@ const init = () => {
   });
 };
 
-init();
-
-//тоже самое, что и getdata()
-// fetch(API_URL + LOCATION_URL)
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log(data);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
+init()
