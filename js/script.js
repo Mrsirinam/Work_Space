@@ -1,7 +1,9 @@
+// script.js
+import { BOT_TOKEN, userId } from "./config.js";
+
 const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations";
 const VACANCY_URL = "api/vacancy";
-const BOT_TOKEN = "6666488305:AAGBrjcULh1ajmZMnWNlXpIWRfgCcIZgokw";
 
 const cardsList = document.querySelector(".cards__list");
 let lastUrl = "";
@@ -129,8 +131,7 @@ const sendTelegram = (modal) => {
     e.preventDefault();
     const form = e.target.closest(".detail__tg");
 
-    const userId = "333697244";
-    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.messages}`;
+    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.message.value}`;
 
     const urlBot = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`;
 
