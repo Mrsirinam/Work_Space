@@ -107,13 +107,14 @@ const createDetailVacancy = ({
 					</ul>
 				</div>
 
-				${isNaN(parseInt(id.slice(-1))) ? 
-					`	
+				${
+          isNaN(parseInt(id.slice(-1)))
+            ? `	
 					<p class="detail__resume">Отправляйте резюме на
 					<a class="blue-text" href="mailto:${email}">${email}</a>
 					</p>
-				`: 
-				`<form class="detail__tg"> 
+				`
+            : `<form class="detail__tg"> 
 						<input class="detail__input" type="text" name="message" placeholder="Напишите свой email"/>
 						<input name="vacancyId" type="hidden" value="${id}"/>
 						<button class="detail__btn">Отправить</button>
@@ -124,24 +125,22 @@ const createDetailVacancy = ({
 `;
 
 const sendTelegram = (modal) => {
-	modal.addEventListener('submit', (e) => {
-		e.preventDefault();
-		const form = e.target.closest('.detail__tg');
+  modal.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.target.closest(".detail__tg");
 
-		const userId = "333697244";
-		const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.messages}`
-		
-		const urlBot = 
-		`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`
+    const userId = "333697244";
+    const text = `Отклик на вакансию ${form.vacancyId.value}, email: ${form.messages}`;
 
-		fetch(urlBot)
-		.then(res => alert('Успешно отправлено'))
-		.catch(err => {
-			alert('Ошибка');
-		console.log(err);
-	});
+    const urlBot = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${userId}&text=${text}`;
 
-});
+    fetch(urlBot)
+      .then((res) => alert("Успешно отправлено"))
+      .catch((err) => {
+        alert("Ошибка");
+        console.log(err);
+      });
+  });
 };
 
 const renderModal = (data) => {
@@ -170,9 +169,9 @@ const renderModal = (data) => {
       modal.remove();
     }
   });
-	
-	sendTelegram(modal);
 
+  sendTelegram(modal);
+};
 //загружает вакансии для отображения, когда пользователь прокручивает страницу (бесконечная прокрутка.)
 
 const observer = new IntersectionObserver(
@@ -256,4 +255,4 @@ const init = () => {
   });
 };
 
-init()
+init();
