@@ -78,11 +78,14 @@
 	}
 
 	.filter__input {
-		max-width: 135px;
+		max-width: 140px;
 	}
 
 	.filter__checkboxes {
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 24px;
+		justify-content: space-between;
 	}
 
 	.filter__buttons {
