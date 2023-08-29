@@ -34,12 +34,15 @@
 
 	.vacancies__container {
 		flex-direction: column;
-		row-gap: 40px;
+		row-gap: 0px;
 	}
 
 	.vacancies__filter-btn {
 		display: flex;
 		align-items: center;
+		margin-bottom: 24px;
+		transition: margin-bottom 0.2s ease-in-out;
+		transition-delay: 0.2s;
 	}
 
 	.vacancies__filter-btn:after {
@@ -50,9 +53,17 @@
 		background: url('../image/arrow-blue.svg') no-repeat center;
 	}
 
+	.vacancies__filter-btn_active {
+		margin-bottom: 32px;
+		transition-delay: 0;
+
+	}
+
 	.vacancies__filter-btn_active::after {
 		transform: rotate(180deg);
 	}
+
+
 
 	.vacancies__filter {
 		width: 100%;
@@ -64,6 +75,7 @@
 
 	.vacancies__filter_active {
 		height: auto;
+		margin-bottom: 40px;
 	}
 
 	.vacancies__cards {
@@ -72,7 +84,7 @@
 }
 
 @media (max-width: 640px) {
-	.vacancies__container {
-		gap: 24px;
+	.vacancies__filter-btn_active {
+		margin-bottom: 24px;
 	}
 }
