@@ -229,6 +229,20 @@ const init = () => {
     }
   });
 
+  window.addEventListener("resize", () => {
+    if (vacanciesFilterBtn.classList.contains("vacancies__filter-btn_active")) {
+      // 1) вариант меняем размер при изменении расширения
+      //vacanciesFilter.style.height = `${vacanciesFilter.scrollHeight}px`;
+      //2) вариант закрываем фильтра при изменении расширения и открываем уже в подходящем формате
+      closeFilter(
+        vacanciesFilterBtn,
+        vacanciesFilter,
+        "vacancies__filter-btn_active",
+        "vacancies__filter_active"
+      );
+    }
+  });
+
   //select city
   const citySelect = document.querySelector("#city");
   const cityChoices = new Choices(citySelect, {
@@ -268,6 +282,15 @@ const init = () => {
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
+    }
+  });
+
+  cardsList.addEventListener("keydown", ({ code, target }) => {
+    const vacancyCard = target.closest(".vacancy");
+    if ((code === "Enter" || (code === "NumpadEnter)" && vacancyCard)) {
+      const vacancyId = vacancyCard.dataset.id;
+      openModal(vacancyId);
+			target.blur();
     }
   });
 
