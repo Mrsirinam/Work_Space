@@ -1,6 +1,3 @@
-// script.js
-// import { BOT_TOKEN, userId } from "./config.js";
-
 const API_URL = "https://workspace-methed.vercel.app/";
 const LOCATION_URL = "api/locations";
 const VACANCY_URL = "api/vacancy";
