@@ -287,10 +287,10 @@ const init = () => {
 
   cardsList.addEventListener("keydown", ({ code, target }) => {
     const vacancyCard = target.closest(".vacancy");
-    if ((code === "Enter" || (code === "NumpadEnter)" && vacancyCard)) {
+    if ((code === "Enter" || code === "NumpadEnter") && vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
-			target.blur();
+      target.blur();
     }
   });
 
