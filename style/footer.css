@@ -8,30 +8,24 @@
 	grid-template-areas:
 		"logo ."
 		"copyright contacts";
-
 }
 
 .footer__logo {
 	grid-area: logo;
-
 }
 
 .footer__copyright {
 	grid-area: copyright;
-
 }
 
 .footer__contacts {
 	grid-area: contacts;
 	justify-self: end;
 	min-width: 180px;
-
-
 }
 
 .footer__contact {
 	margin-bottom: 8px;
-
 }
 
 .footer__contact:last-child {
@@ -69,5 +63,6 @@
 
 	.footer__contacts {
 		justify-self: start;
+
 	}
 }

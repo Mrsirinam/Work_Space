@@ -4,10 +4,16 @@
 	src: url('../fonts/inter-regular.woff2') format("woff2"), url('../fonts/inter-regular.woff') format("woff")
 }
 
-html {
+/* html {
 	position: relative;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
+	box-sizing: border-box;
+} */
+
+html {
+	scroll-behavior: smooth;
+	position: relative;
 	box-sizing: border-box;
 }
 
@@ -18,7 +24,7 @@ html {
 
 }
 
-body {
+/* body {
 	position: relative;
 	overflow-x: hidden;
 	min-width: 320px;
@@ -27,6 +33,16 @@ body {
 	font-size: 14px;
 	color: #171717;
 	background-color: #F3F4F8;
+	line-height: 1.2;
+} */
+
+body {
+	min-width: 320px;
+	min-height: 100vh;
+	font-family: Inter, sans-serif;
+	font-size: 14px;
+	color: #171717;
+	background-color: #f3f4f8;
 	line-height: 1.2;
 }
 
