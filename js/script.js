@@ -248,6 +248,7 @@ const init = () => {
   const cityChoices = new Choices(citySelect, {
     itemSelectText: "",
     searchEnabled: false,
+    position: "bottom",
   });
 
   //получаем данные с сервера (города)

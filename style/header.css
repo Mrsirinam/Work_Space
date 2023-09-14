@@ -9,6 +9,12 @@
 
 }
 
+.header__links {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
 .header__link {
 	padding: 12px 32px;
 	border-radius: 8px;
@@ -17,6 +23,11 @@
 	transition-property: color, background-color;
 	transition-duration: .2s;
 	transition-timing-function: ease-in-out;
+}
+
+.header__link_o {
+	background-color: transparent;
+	border: 1px solid #a6adff;
 }
 
 .header__link:focus-visible {
