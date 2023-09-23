@@ -20,17 +20,22 @@
 	top: 0;
 	bottom: 0;
 	background-color: #fff;
-	border-radius: 4px;
-	transition: box-shadow 0.2s ease-in-out;
+	border-radius: 50%;
 }
 
 .radio__input:after {
 	content: '';
 	position: absolute;
-	inset: 0;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	display: block;
-	background: url('../image/check.svg') no-repeat center;
 	opacity: 0;
+	border-radius: 50%;
+	width: 4px;
+	height: 4px;
+	background-color: #171717;
+	transition: opacity 0.2s ease-in-out;
 }
 
 .radio__input:checked:after {
