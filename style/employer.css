@@ -23,8 +23,6 @@
 	gap: 32px 20px;
 }
 
-.employer__wrap-input {}
-
 .employer__label {
 	display: block;
 	margin-bottom: 12px;
@@ -36,10 +34,8 @@
 	border: 0;
 	height: 32px;
 	width: 100%;
-}
-
-.employer__input:placeholder {
-	color: #ccc;
+	outline: 0;
+	border: 1px solid transparent;
 }
 
 .employer__textarea {
@@ -49,7 +45,18 @@
 	resize: vertical;
 	border: 0;
 	padding: 7px 16px;
+	outline: 0;
+	border: 1px solid transparent;
 }
+
+.employer__input:focus-visible,
+.employer__textarea:focus-visible {
+	border-color: #a6adff;
+}
+
+.employer__input.invalid,
+.employer__textarea.invalid {}
+
 
 .employer__radio-buttons {
 	display: grid;

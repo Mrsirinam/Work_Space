@@ -1,7 +1,8 @@
 // script.js
 // import { BOT_TOKEN, userId } from "./config.js";
 
-const API_URL = "https://workspace-methed.vercel.app/";
+// const API_URL = "https://workspace-methed.vercel.app/";
+const API_URL = "https://opalescent-emerald-eustoma.glitch.me/";
 const LOCATION_URL = "api/locations";
 const VACANCY_URL = "api/vacancy";
 
@@ -34,6 +35,19 @@ const createCard = (vacancy) => `
 							</ul>
 						</article>
 `;
+
+const inputNumberControler = () => {
+  const inputNumberElems = document.querySelectorAll('input[type="number"]');
+  inputNumberElems.forEach((input) => {
+    let value = "";
+    input.addEventListener("input", (event) => {
+      if (isNaN(parseInt(event.data))) {
+        event.target.value = value;
+      }
+      value = event.target.value;
+    });
+  });
+};
 
 const createCards = (data) =>
   data.vacancies.map((vacancy) => {
@@ -331,7 +345,17 @@ const init = () => {
 
   try {
     const validationForm = (form) => {
-      const validate = new JustValidate(form, {});
+      const validate = new JustValidate(form, {
+        errorLabelStyle: {
+          color: "#f00",
+        },
+        errorFieldStyle: {
+          borderColor: "#f00",
+        },
+        errorFieldCssClass: "invalid",
+        errorsContainer: document.querySelector(".employer__error"),
+      });
+
       validate
         .addField("#logo", [
           { rule: "minFilesCount", value: 1, errorMessage: "Добавьте логотип" },
@@ -361,7 +385,7 @@ const init = () => {
           { rule: "required", errorMessage: "Заполните город" },
         ])
         .addField("#email", [
-          { rule: "required", errorMessage: "Заполните email" },
+          { rule: "email", errorMessage: "Заполните email" },
         ])
         .addField("#description", [
           { rule: "required", errorMessage: "Заполните описание" },
@@ -369,12 +393,21 @@ const init = () => {
         .addRequiredGroup("#format", "Выберите формат")
         .addRequiredGroup("#expirience", "Выберите опыт")
         .addRequiredGroup("#type", "Выберите занятость");
+
+      return validate;
     };
 
     const fileController = () => {
       const file = document.querySelector(".file");
       const preview = document.querySelector(".file__preview");
       const input = document.querySelector(".file__input");
+      let myDropzone = new Dropzone(".file__wrap-preview", {
+        url: "/file/post",
+        acceptedFiles: ".jpg, .png, .jpeg",
+        accept() {
+          console.log("Файл получен");
+        },
+      });
 
       input.addEventListener("change", (event) => {
         if (event.target.files.length > 0) {
@@ -392,12 +425,34 @@ const init = () => {
 
     const formController = () => {
       const form = document.querySelector(".employer__form");
+      const employerError = document.querySelector(".employer__error");
 
-      validationForm(form);
+      const validate = validationForm(form);
 
-      form.addEventListener("submit", (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        console.log("Отправка");
+
+        if (!validate.isValid) {
+          return;
+        }
+
+        try {
+          const formData = new FormData(form);
+          employerError.textContent = "Отправка, подождите...";
+
+          const response = await fetch(`${API_URL}${VACANCY_URL}`, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            employerError.textContent = "";
+            window.location.href = "index.html";
+          }
+        } catch (error) {
+          employerError.textContent = "Произошла ошибка";
+          console.error(error);
+        }
       });
     };
 
@@ -407,6 +462,7 @@ const init = () => {
     console.log("error: ", error);
     console.warn("Мы не на странице employer.html");
   }
+  inputNumberControler();
 };
 
 init();
